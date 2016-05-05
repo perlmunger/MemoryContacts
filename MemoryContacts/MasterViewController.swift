@@ -24,9 +24,6 @@ extension CNContact {
         if (self.imageDataAvailable) {
             let thumbnailImageDataAsBase64String = self.thumbnailImageData!.base64EncodedStringWithOptions([])
             contact["thumbnailImageData"] = thumbnailImageDataAsBase64String
-            
-            //      let imageDataAsBase64String = self.imageData!.base64EncodedStringWithOptions([])
-            //      contact["imageData"] = imageDataAsBase64String
         }
         
         if (self.isKeyAvailable(CNContactPhoneNumbersKey)) {
@@ -127,11 +124,14 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let object = objects[indexPath.row] as! NSDate
-                let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                if let contact = searchResults?[indexPath.row] {
+                    self.resultSearchController.searchBar.
+                    let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
+                    controller.detailItem = contact
+                    controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+                    controller.navigationItem.leftItemsSupplementBackButton = true
+                }
+
             }
         }
     }
