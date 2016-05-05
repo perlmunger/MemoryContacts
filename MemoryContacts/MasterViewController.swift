@@ -125,7 +125,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 if let contact = searchResults?[indexPath.row] {
-                    self.resultSearchController.searchBar.
+                    UIApplication.sharedApplication().keyWindow?.endEditing(true)
                     let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
                     controller.detailItem = contact
                     controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
@@ -146,7 +146,9 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         if let contact = searchResults?[indexPath.row] {
-            cell.textLabel!.text = contact["givenName"] as? String
+            if let givenName = contact["givenName"] as? String, familyName = contact["familyName"] as? String {
+                cell.textLabel!.text = "\(givenName) \(familyName)"
+            }
         }
         return cell
     }
